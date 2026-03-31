@@ -11,12 +11,29 @@ services:
     container_name: user
     depends_on:
     - redis
+    - mongodb
   cart:
     build: ./cart
     image: cart:1.0.0
     container_name: cart
     depends_on:
-    - redis    
+    - redis
+    - catalogue
+  shipping:
+    build: ./shipping
+    image: shipping:1.0.0
+    container_name: shipping
+    depends_on:
+    - shipping
+    - mysql
+  payment:
+    build: ./payment
+    image: payment:1.0.0
+    container_name: payment
+    depends_on:
+    - rabbitmq
+    - cart
+    - user
   frontend:
     build: ./frontend
     image: frontend:1.0.0
@@ -27,6 +44,8 @@ services:
     - catalogue
     - user  
     - cart
+    - shipping
+    - payment
   mongodb:
     build: ./mongodb
     image: mongodb:1.0.0 # docker build -t mongodb:1.0.0
@@ -34,7 +53,15 @@ services:
   redis: 
     build: ./redis
     image: redis:1.0.0
-    container_name: redis  
+    container_name: redis
+  mysql:
+    build: ./mysql
+    image: mysql:1.0.0
+    container_name: mysql
+  rabbitmq:
+    build: ./rabbitmq
+    image: rabbitmq:1.0.0
+    container_name: rabbitmq      
 
 
 networks:
