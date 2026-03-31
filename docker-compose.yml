@@ -10,7 +10,13 @@ services:
     image: user:1.0.0
     container_name: user
     depends_on:
-    - redis  
+    - redis
+  cart:
+    build: ./cart
+    image: cart:1.0.0
+    container_name: cart
+    depends_on:
+    - redis    
   frontend:
     build: ./frontend
     image: frontend:1.0.0
@@ -20,6 +26,7 @@ services:
     depends_on:
     - catalogue
     - user  
+    - cart
   mongodb:
     build: ./mongodb
     image: mongodb:1.0.0 # docker build -t mongodb:1.0.0
