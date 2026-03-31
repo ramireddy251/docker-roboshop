@@ -15,7 +15,7 @@ services:
     build: ./frontend
     image: frontend:1.0.0
     container_name: frontend 
-    dependson:
+    depends_on:
     - catalogue
     - user  
   mongodb:
