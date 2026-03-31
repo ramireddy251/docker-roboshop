@@ -4,11 +4,28 @@ services:
     image: catalogue:1.0.0
     container_name: catalogue
     depends_on:
-    - mongodb  
+    - mongodb
+  user: 
+    build: ./user
+    image: user:1.0.0
+    container_name: user
+    depends_on:
+    - redis  
+  frontend:
+    build: ./frontend
+    image: frontend:1.0.0
+    container_name: frontend 
+    dependson:
+    - catalogue
+    - user  
   mongodb:
     build: ./mongodb
     image: mongodb:1.0.0 # docker build -t mongodb:1.0.0
     container_name: mongodb
+  redis: 
+    build: ./redis
+    image: redis:1.0.0
+    container_name: redis  
 
 
 networks:
